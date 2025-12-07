@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+    --font-family-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+
+    --color-orange-50: oklch(0.971 0.013 56.649);
+    --color-orange-100: oklch(0.942 0.034 56.837);
+    --color-orange-200: oklch(0.901 0.064 58.699);
+    --color-orange-300: oklch(0.837 0.108 62.658);
+    --color-orange-400: oklch(0.75 0.16 53.301);
+    --color-orange-500: oklch(0.705 0.19 47.604);
+    --color-orange-600: oklch(0.632 0.194 41.372);
+    --color-orange-700: oklch(0.527 0.159 37.434);
+    --color-orange-800: oklch(0.445 0.127 35.883);
+    --color-orange-900: oklch(0.381 0.101 34.866);
+    --color-orange-950: oklch(0.239 0.062 33.286);
+
+    --animate-slide-in: slideIn 0.3s ease-out;
+    --animate-slide-out: slideOut 0.3s ease-out;
+
+    @keyframes slideIn {
+        0% {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOut {
+        0% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+}
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/container-queries";
+
+@variant dark (&:where(.dark, .dark *));
+
+.pagy.info {
+    @apply text-sm font-normal text-gray-500 dark:text-gray-400;
+
+    span {
+        @apply font-semibold text-gray-900 dark:text-white;
+    }
+}
+
+.pagy.nav {
+    @apply inline-flex items-stretch -space-x-px;
+
+    a {
+        @apply flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border
+        border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400
+        dark:hover:bg-gray-700 dark:hover:text-white;
+
+        &:first-child {
+            @apply rounded-l-lg font-semibold;
+        }
+
+        &:last-child {
+            @apply rounded-r-lg font-semibold;
+        }
+
+        &.current {
+            @apply z-10 flex items-center justify-center px-3 py-2 text-sm font-semibold leading-tight border
+            text-gray-600 bg-gray-100 border-gray-300 hover:text-gray-700 dark:border-gray-700
+            dark:bg-gray-700 dark:text-white
+        }
+    }
+}
+
+.dark [type=checkbox]:checked {
+    background-size: 100% 100%;
+}

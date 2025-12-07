@@ -2,6 +2,6 @@
 
 # Application mailer
 class ApplicationMailer < ActionMailer::Base
-  default from: 'mailer@kognado.com'
+  default from: 'mailer@kognofluo.com'
   layout 'mailer'
 end

@@ -93,11 +93,11 @@ The application supports complex industrial environments:
 
 ### Code Style
 - Follows Rails Omakase RuboCop configuration
-- Ruby 3.4.4 and Rails 8.0.2
+- Ruby 3.4.7 and Rails 8.1.1
 - Frozen string literals enabled
 
 ## Tech Stack
-- **Rails 8.0.2** with Hotwire (Turbo Rails, Stimulus)
+- **Rails 8.1.1** with Hotwire (Turbo Rails, Stimulus)
 - **Tailwind CSS** for styling
 - **Devise** with Argon2 for authentication
 - **SQLite** database with Active Storage
