@@ -22,7 +22,7 @@ class Organization::ProductionLinesController < ApplicationController
 
   # GET /organization/production_lines or /organization/production_lines.json
   def index
-    @pagy, @records = pagy(Organization::ProductionLine.all)
+    @pagy, @records = pagy(:offset, Organization::ProductionLine.all)
   end
 
   # GET /organization/production_lines/1 or /organization/production_lines/1.json

@@ -22,7 +22,7 @@ class Maintenance::ManufacturersController < ApplicationController
 
   # GET /maintenance/manufacturers or /maintenance/manufacturers.json
   def index
-    @pagy, @records = pagy(Maintenance::Manufacturer.all)
+    @pagy, @records = pagy(:offset, Maintenance::Manufacturer.all)
   end
 
   # GET /maintenance/manufacturers/1 or /maintenance/manufacturers/1.json

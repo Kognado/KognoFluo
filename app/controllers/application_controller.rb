@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   # -- -------------------------------------------------------------------------
   # -- Concerns ----------------------------------------------------------------
   include HttpAcceptLanguage::AutoLocale
-  include Pagy::Backend
+  include Pagy::Method
   include RescueRecordNotDestroyed
 
   # -- -------------------------------------------------------------------------

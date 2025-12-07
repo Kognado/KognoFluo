@@ -30,7 +30,7 @@ class Maintenance::PlansController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @pagy, @maintenance_plans = pagy(Maintenance::Plan.includes(options).all)
+        @pagy, @maintenance_plans = pagy(:offset, Maintenance::Plan.includes(options).all)
       end
       format.json do
         @maintenance_plans = Maintenance::Plan.includes(options).all

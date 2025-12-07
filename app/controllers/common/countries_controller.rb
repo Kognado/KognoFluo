@@ -22,7 +22,7 @@ class Common::CountriesController < ApplicationController
 
   # GET /common/countries or /common/countries.json
   def index
-    @pagy, @records = pagy(Common::Country.all)
+    @pagy, @records = pagy(:offset, Common::Country.all)
   end
 
   # GET /common/countries/1 or /common/countries/1.json

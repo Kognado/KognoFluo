@@ -39,7 +39,7 @@ class Maintenance::AssetsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @pagy, @maintenance_assets = pagy(Maintenance::Asset.includes(options).all)
+        @pagy, @maintenance_assets = pagy(:offset, Maintenance::Asset.includes(options).all)
       end
       format.json do
         @maintenance_assets = Maintenance::Asset.includes(options).all

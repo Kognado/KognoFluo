@@ -22,7 +22,7 @@ class Organization::AreasController < ApplicationController
 
   # GET /organization/areas or /organization/areas.json
   def index
-    @pagy, @records = pagy(Organization::Area.all)
+    @pagy, @records = pagy(:offset, Organization::Area.all)
   end
 
   # GET /organization/areas/1 or /organization/areas/1.json

@@ -2,8 +2,6 @@
 
 # Application helper
 module ApplicationHelper
-  include Pagy::Frontend
-
   # Returns the full title on a per-page basis
   # @param page_title [String]
   # @return [String]

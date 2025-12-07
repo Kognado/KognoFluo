@@ -41,10 +41,6 @@
     }
 }
 
-@plugin "@tailwindcss/forms";
-@plugin "@tailwindcss/typography";
-@plugin "@tailwindcss/container-queries";
-
 @variant dark (&:where(.dark, .dark *));
 
 .pagy.info {
