@@ -43,12 +43,11 @@ class MaintenanceSeeder
 
       def create_plants
         [ 'Ciudad de México', 'Monterrey', 'Guadalajara' ].each_with_index do |city, i|
-          Organization::Plant.create!(
-            code: "PL#{format('%02d', i + 1)}",
-            name: "#{Faker::Industry.plant_name} #{city}",
-            address: "#{Faker::Address.street_address}, #{city}, #{Faker::Address.zip}",
-            status: Organization::Plant::STATUSES.sample
-          )
+          Organization::Plant.find_or_create_by!(code: "PL#{format('%02d', i + 1)}") do |plant|
+            plant.name = "#{Faker::Industry.plant_name} #{city}"
+            plant.address = "#{Faker::Address.street_address}, #{city}, #{Faker::Address.zip}"
+            plant.status = Organization::Plant::STATUSES.sample
+          end
         end
       end
 
@@ -56,13 +55,12 @@ class MaintenanceSeeder
         Organization::Plant.find_each do |plant|
           Faker::Industry::PLANT_AREAS.each_with_index do |(department, subareas), i|
             subareas.each_with_index do |subarea, j|
-              Organization::Area.create!(
-                code: "AR#{format('%02d', i + 1)}#{format('%02d', j + 1)}",
-                name: "#{department} - #{subarea}",
-                description: Faker::Lorem.paragraph(sentence_count: 2),
-                plant: plant,
-                status: Organization::Area::STATUSES.sample
-              )
+              code = "AR#{format('%02d', i + 1)}#{format('%02d', j + 1)}"
+              Organization::Area.find_or_create_by!(plant: plant, code: code) do |area|
+                area.name = "#{department} - #{subarea}"
+                area.description = Faker::Lorem.paragraph(sentence_count: 2)
+                area.status = Organization::Area::STATUSES.sample
+              end
             end
           end
         end
@@ -70,15 +68,14 @@ class MaintenanceSeeder
 
       def create_production_lines
         Organization::Area.where("name LIKE '%Producción%'").find_each do |area|
-          rand(2..4).times do |i|
-            capacity = [ 1000, 2000, 5000, 10000 ].sample
-            Organization::ProductionLine.create!(
-              code: "L#{format('%02d', i + 1)}",
-              name: "#{Faker::Industry.production_line_name(area)} #{area.name.split('-').last.strip}",
-              description: "Línea de #{area.name.split('-').last.strip} con capacidad de #{capacity} unidades/hora",
-              area: area,
-              status: Organization::ProductionLine::STATUSES.sample
-            )
+          3.times do |i|
+            code = "L#{format('%02d', i + 1)}"
+            capacity = [ 1000, 2000, 5000, 10000 ][i % 4]
+            Organization::ProductionLine.find_or_create_by!(area: area, code: code) do |line|
+              line.name = "#{Faker::Industry.production_line_name(area)} #{area.name.split('-').last.strip}"
+              line.description = "Línea de #{area.name.split('-').last.strip} con capacidad de #{capacity} unidades/hora"
+              line.status = Organization::ProductionLine::STATUSES.sample
+            end
           end
         end
       end
@@ -86,29 +83,29 @@ class MaintenanceSeeder
       def create_manufacturers
         puts 'Creating manufacturers...'
         Faker::Industry::MANUFACTURERS.each do |manufacturer|
-          Maintenance::Manufacturer.create!(
-            code: manufacturer[:name][0..2].upcase,
-            name: manufacturer[:name],
-            website: "https://www.#{manufacturer[:name].downcase.gsub(/[^a-z0-9]/, '')}.com",
-            support_phone: Faker::PhoneNumber.phone_number,
-            suport_email: "support@#{manufacturer[:name].downcase.gsub(/[^a-z0-9]/, '')}.com",
-            notes: "Fabricante especializado en #{manufacturer[:specialties].join(' y ')}",
-            status: Maintenance::Manufacturer::STATUSES.sample
-          )
+          code = manufacturer[:name][0..2].upcase
+          Maintenance::Manufacturer.find_or_create_by!(code: code) do |m|
+            m.name = manufacturer[:name]
+            m.website = "https://www.#{manufacturer[:name].downcase.gsub(/[^a-z0-9]/, '')}.com"
+            m.support_phone = Faker::PhoneNumber.phone_number
+            m.suport_email = "support@#{manufacturer[:name].downcase.gsub(/[^a-z0-9]/, '')}.com"
+            m.notes = "Fabricante especializado en #{manufacturer[:specialties].join(' y ')}"
+            m.status = Maintenance::Manufacturer::STATUSES.sample
+          end
         end
       end
 
       def create_asset_types
         puts 'Creating asset types...'
+        global_index = 0
         Faker::Industry::ASSET_CATEGORIES.each do |_category, data|
           data[:types].each do |type|
-            Maintenance::AssetType.create!(
-              # Ensure unique code
-              code: "#{type[0..2].upcase}#{rand(100..9999)}",
-              name: type,
-              description: "Equipo tipo #{type} para aplicaciones industriales",
-              status: Maintenance::AssetType::STATUSES.sample
-            )
+            Maintenance::AssetType.find_or_create_by!(name: type) do |asset_type|
+              global_index += 1
+              asset_type.code = "AT#{format('%03d', global_index)}"
+              asset_type.description = "Equipo tipo #{type} para aplicaciones industriales"
+              asset_type.status = Maintenance::AssetType::STATUSES.sample
+            end
           end
         end
       end
@@ -138,19 +135,27 @@ class MaintenanceSeeder
         production_lines = Organization::ProductionLine.all
         manufacturers = Maintenance::Manufacturer.all
 
-        distribution.each do |category, count|
-          count.times do
-            asset_type = asset_types.find do |at|
-              Faker::Industry::ASSET_CATEGORIES[category][:types].include?(at.name)
-            end
-            next unless asset_type
+        distribution.each do |category, target_count|
+          # Get asset types for this category
+          category_asset_types = asset_types.select do |at|
+            Faker::Industry::ASSET_CATEGORIES[category][:types].include?(at.name)
+          end
+          next if category_asset_types.empty?
 
+          # Count existing assets for this category
+          existing_count = Maintenance::Asset.joins(:type).where(maintenance_asset_types: { id: category_asset_types.map(&:id) }).count
+          assets_to_create = target_count - existing_count
+
+          next if assets_to_create <= 0
+
+          assets_to_create.times do
+            asset_type = category_asset_types.sample
             manufacturing_date = Faker::Date.between(from: '2015-01-01', to: '2020-12-31')
 
             asset = create_asset(asset_type, production_lines.sample, manufacturers.sample, manufacturing_date, category)
-            create_asset_components(asset, category)
-            create_asset_documents(asset)
-            assign_technicians(asset)
+            create_asset_components(asset, category) if asset
+            create_asset_documents(asset) if asset
+            assign_technicians(asset) if asset
           end
         end
       end
@@ -191,15 +196,15 @@ class MaintenanceSeeder
 
       def create_tools
         puts 'Creating maintenance tools...'
+        global_index = 0
         Faker::Industry::TOOLS.each do |type, tools|
           tools.each do |tool|
-            Maintenance::Tool.create!(
-              # Ensure unique code
-              code: "#{tool[0..2].upcase}#{rand(100..999)}",
-              name: tool,
-              description: "#{tool} para mantenimiento industrial",
-              calibration_required: %w[Medición Especiales].include?(type)
-            )
+            Maintenance::Tool.find_or_create_by!(name: tool) do |t|
+              global_index += 1
+              t.code = "TL#{format('%03d', global_index)}"
+              t.description = "#{tool} para mantenimiento industrial"
+              t.calibration_required = %w[Medición Especiales].include?(type)
+            end
           end
         end
       end
@@ -213,13 +218,17 @@ class MaintenanceSeeder
 
       def create_plans_for_asset(asset)
         # Plan preventivo (siempre existe)
-        create_maintenance_plan(asset, :preventive)
+        create_maintenance_plan(asset, :preventive) unless asset.plans.exists?(plan_type: :preventive)
 
-        # Plan predictivo (50% de probabilidad)
-        create_maintenance_plan(asset, :predictive) if rand < 0.5
+        # Plan predictivo (solo si no existe y con probabilidad based on asset ID para consistencia)
+        unless asset.plans.exists?(plan_type: :predictive)
+          create_maintenance_plan(asset, :predictive) if (asset.id % 2).zero?
+        end
 
-        # Plan correctivo (30% de probabilidad)
-        create_maintenance_plan(asset, :corrective) if rand < 0.3
+        # Plan correctivo (solo si no existe y con probabilidad based on asset ID para consistencia)
+        unless asset.plans.exists?(plan_type: :corrective)
+          create_maintenance_plan(asset, :corrective) if (asset.id % 3).zero?
+        end
       end
 
       def create_maintenance_plan(asset, plan_type)
@@ -486,12 +495,13 @@ class MaintenanceSeeder
         end_date = current_date + 1.year
 
         while current_date <= end_date
-          schedule = plan.schedules.create!(
-            scheduled_date: current_date,
-            status: determine_schedule_status(current_date)
-          )
+          schedule = plan.schedules.find_or_create_by!(scheduled_date: current_date) do |s|
+            s.status = determine_schedule_status(current_date)
+          end
 
-          assign_technicians_to_schedule(schedule)
+          # Only assign technicians if schedule was just created (no assignments yet)
+          assign_technicians_to_schedule(schedule) if schedule.assignments.empty?
+
           current_date += calculate_next_date(plan)
         end
       end
