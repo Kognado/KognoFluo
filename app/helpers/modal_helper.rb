@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module ModalHelper
+  # -- -------------------------------------------------------------------------
+  # -- Configuration & Includes ------------------------------------------------
+
+  # -- -------------------------------------------------------------------------
+  # -- Public Methods ----------------------------------------------------------
+
   # @param resource [Object] The resource to be deleted
   # @param options [Hash] The options to be passed to the modal
   #
@@ -28,4 +34,9 @@ module ModalHelper
         t('shared.confirmation_modal.cancel_button_text')
     }
   end
+
+  # -- -------------------------------------------------------------------------
+  # -- Private Methods ---------------------------------------------------------
+
+  # private
 end

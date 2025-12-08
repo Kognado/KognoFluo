@@ -3,6 +3,12 @@
 # app/helpers/maintenance/schedules_helper.rb
 module Maintenance
   module SchedulesHelper
+    # -- -------------------------------------------------------------------------
+    # -- Configuration & Includes ------------------------------------------------
+
+    # -- -------------------------------------------------------------------------
+    # -- Public Methods ----------------------------------------------------------
+
     def schedule_status_badge_class(status)
       base_classes = 'text-xs font-medium px-2.5 py-0.5 rounded'
 
@@ -15,5 +21,10 @@ module Maintenance
 
       "#{base_classes} #{status_classes[status.to_sym]}"
     end
+
+    # -- -------------------------------------------------------------------------
+    # -- Private Methods ---------------------------------------------------------
+
+    # private
   end
 end

@@ -2,6 +2,7 @@
 
 @theme {
     --font-family-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-family-heading: "Rubik", ui-sans-serif, system-ui;
 
     --color-orange-50: oklch(0.971 0.013 56.649);
     --color-orange-100: oklch(0.942 0.034 56.837);
@@ -14,6 +15,61 @@
     --color-orange-800: oklch(0.445 0.127 35.883);
     --color-orange-900: oklch(0.381 0.101 34.866);
     --color-orange-950: oklch(0.239 0.062 33.286);
+
+    /* Colores oficiales de Kognado */
+    --color-kognado-blue-50: oklch(0.985 0.01 240);
+    --color-kognado-blue-100: oklch(0.97 0.02 240);
+    --color-kognado-blue-200: oklch(0.94 0.04 240);
+    --color-kognado-blue-300: oklch(0.88 0.08 240);
+    --color-kognado-blue-400: oklch(0.79 0.12 240);
+    --color-kognado-blue-500: oklch(0.72 0.10 240);
+    --color-kognado-blue-600: oklch(0.65 0.09 240);
+    --color-kognado-blue-700: oklch(0.58 0.08 240);
+    --color-kognado-blue-800: oklch(0.51 0.07 240);
+    --color-kognado-blue-900: oklch(0.43 0.06 240);
+    --color-kognado-blue-950: oklch(0.28 0.04 240);
+
+    --color-kognado-green-50: oklch(0.984 0.02 145);
+    --color-kognado-green-100: oklch(0.97 0.04 145);
+    --color-kognado-green-200: oklch(0.94 0.08 145);
+    --color-kognado-green-300: oklch(0.88 0.14 145);
+    --color-kognado-green-400: oklch(0.78 0.18 145);
+    --color-kognado-green-500: oklch(0.74 0.14 145);
+    --color-kognado-green-600: oklch(0.66 0.12 145);
+    --color-kognado-green-700: oklch(0.57 0.10 145);
+    --color-kognado-green-800: oklch(0.49 0.08 145);
+    --color-kognado-green-900: oklch(0.41 0.07 145);
+    --color-kognado-green-950: oklch(0.26 0.04 145);
+
+    /* Aliases para los colores principales */
+    --color-kognado-primary: var(--color-kognado-blue-500);
+    --color-kognado-secondary: var(--color-kognado-green-500);
+
+    /* Colores neutros sin tinte usando OKLCH */
+    --color-gray-50: oklch(.99 0 0);
+    --color-gray-100: oklch(.97 0 0);
+    --color-gray-200: oklch(.922 0 0);
+    --color-gray-300: oklch(.87 0 0);
+    --color-gray-400: oklch(.708 0 0);
+    --color-gray-500: oklch(.556 0 0);
+    --color-gray-600: oklch(.439 0 0);
+    --color-gray-700: oklch(.371 0 0);
+    --color-gray-800: oklch(.269 0 0);
+    --color-gray-900: oklch(.205 0 0);
+    --color-gray-950: oklch(.145 0 0);
+
+    /* También neutral como alias */
+    --color-neutral-50: oklch(.99 0 0);
+    --color-neutral-100: oklch(.97 0 0);
+    --color-neutral-200: oklch(.922 0 0);
+    --color-neutral-300: oklch(.87 0 0);
+    --color-neutral-400: oklch(.708 0 0);
+    --color-neutral-500: oklch(.556 0 0);
+    --color-neutral-600: oklch(.439 0 0);
+    --color-neutral-700: oklch(.371 0 0);
+    --color-neutral-800: oklch(.269 0 0);
+    --color-neutral-900: oklch(.205 0 0);
+    --color-neutral-950: oklch(.145 0 0);
 
     --animate-slide-in: slideIn 0.3s ease-out;
     --animate-slide-out: slideOut 0.3s ease-out;

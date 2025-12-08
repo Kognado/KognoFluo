@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module AvatarHelper
+  # -- -------------------------------------------------------------------------
+  # -- Configuration & Includes ------------------------------------------------
+
+  # -- -------------------------------------------------------------------------
+  # -- Public Methods ----------------------------------------------------------
+
   def user_avatar(user, options = {})
     if user.profile&.avatar&.attached?
       variant = options.delete(:variant)
@@ -17,6 +23,9 @@ module AvatarHelper
       end
     end
   end
+
+  # -- -------------------------------------------------------------------------
+  # -- Private Methods ---------------------------------------------------------
 
   private
 

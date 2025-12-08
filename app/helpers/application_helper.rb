@@ -2,6 +2,12 @@
 
 # Application helper
 module ApplicationHelper
+  # -- -------------------------------------------------------------------------
+  # -- Configuration & Includes ------------------------------------------------
+
+  # -- -------------------------------------------------------------------------
+  # -- Public Methods ----------------------------------------------------------
+
   # Returns the full title on a per-page basis
   # @param page_title [String]
   # @return [String]
@@ -44,4 +50,9 @@ module ApplicationHelper
   def format_date(date)
     date.present? ? l(date) : '-'
   end
+
+  # -- -------------------------------------------------------------------------
+  # -- Private Methods ---------------------------------------------------------
+
+  # private
 end

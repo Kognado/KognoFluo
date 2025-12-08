@@ -17,7 +17,7 @@ class Maintenance::PlanTaskStep < ApplicationRecord
   # -- Enums -------------------------------------------------------------------
 
   # -- -------------------------------------------------------------------------
-  # -- Associations ------------------------------------------------
+  # -- Associations ------------------------------------------------------------
   belongs_to :plan_task, class_name: 'Maintenance::PlanTask',
              foreign_key: :maintenance_plan_task_id
 
