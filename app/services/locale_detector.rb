@@ -48,7 +48,7 @@ class LocaleDetector
   #
   # @return [Symbol] The first valid locale found in priority order
   def determine_locale
-    url_locale || user_locale || browser_locale || default_locale
+    url_locale || browser_locale || default_locale
   end
 
   # Extract and validate locale from URL parameters

@@ -74,7 +74,7 @@ class BrowserLocaleParser
   def parse_language_entry(entry)
     locale, quality = entry.split(';q=')
     {
-      locale: locale.strip.downcase,
+      locale: locale.strip,
       quality: quality ? quality.to_f : 1.0
     }
   end
