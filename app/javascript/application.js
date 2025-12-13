@@ -9,13 +9,11 @@ import "@rails/request.js"
 window.document.addEventListener('turbo:render', (_event) => {
     window.initFlowbite();
     themeToggle();
-    showSidebar();
 });
 
 // Usar themeToggle en la recarga de la página
 document.addEventListener('DOMContentLoaded', function () {
     themeToggle();
-    showSidebar();
 });
 
 // Function to toggle between dark and light theme
@@ -68,39 +66,4 @@ function themeToggle() {
         }
         document.dispatchEvent(event);
     });
-}
-
-function toggleSidebarMobile(sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose) {
-    sidebar.classList.toggle('hidden');
-    if (sidebarBackdrop) {
-        sidebarBackdrop.classList.toggle('hidden');
-    }
-    toggleSidebarMobileHamburger.classList.toggle('hidden');
-    toggleSidebarMobileClose.classList.toggle('hidden');
-}
-
-function showSidebar() {
-    const sidebar = document.getElementById('sidebar');
-
-    if (sidebar) {
-        const toggleSidebarMobileEl = document.getElementById('toggleSidebarMobile');
-        const sidebarBackdrop = document.querySelector('[drawer-backdrop]');
-        const toggleSidebarMobileHamburger = document.getElementById('toggleSidebarMobileHamburger');
-        const toggleSidebarMobileClose = document.getElementById('toggleSidebarMobileClose');
-        const toggleSidebarMobileSearch = document.getElementById('toggleSidebarMobileSearch');
-
-        toggleSidebarMobileSearch.addEventListener('click', () => {
-            toggleSidebarMobile(sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose);
-        });
-
-        toggleSidebarMobileEl.addEventListener('click', () => {
-            toggleSidebarMobile(sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose);
-        });
-
-        if (sidebarBackdrop) {
-            sidebarBackdrop.addEventListener('click', () => {
-                toggleSidebarMobile(sidebar, sidebarBackdrop, toggleSidebarMobileHamburger, toggleSidebarMobileClose);
-            });
-        }
-    }
 }
