@@ -2,10 +2,10 @@
 
 FactoryBot.define do
   factory :profile do
-    association :user, factory: :user
-    first_name { 'MyString' }
-    last_name { 'MyString' }
-    birth_date { '2024-11-05' }
+    user { nil }
+    first_name { 'John' }
+    last_name { 'Doe' }
+    birth_date { '1990-01-01' }
     gender { 1 }
     avatar { nil }
   end

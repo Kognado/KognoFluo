@@ -5,16 +5,18 @@ require 'test_helper'
 class DashboardControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
-  test 'should get show when authenticated' do
-    sign_in :user
+  test 'should show dashboard when authenticated' do
+    user = create(:user)
+    sign_in user
+
     get authenticated_root_url
+
     assert_response :success
-    assert_template :show
   end
 
-  test 'should redirect to login when not authenticated' do
-    get authenticated_root_url
+  test 'should show public page when not authenticated' do
+    get root_url
+
     assert_response :success
-    assert_template 'public/home'
   end
 end

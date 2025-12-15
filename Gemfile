@@ -43,8 +43,6 @@ gem 'devise-argon2'
 # ============================ APPLICATION FEATURES ============================
 # Use Gretel for breadcrumbs [https://github.com/kzkn/gretel]
 gem 'gretel'
-# Use http_accept_language to detect the user's preferred language
-gem 'http_accept_language'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'
 # Use Pagy for pagination [https://ddnexus.github.io/pagy/]
@@ -105,7 +103,10 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
+end
 
-  # Use rails-controller-testing for testing controllers
-  gem 'rails-controller-testing'
+# ============================= PRODUCTION ONLY ================================
+group :production do
+  # Use MailGun for sending emails
+  gem 'mailgun-ruby'
 end
