@@ -16,7 +16,7 @@ complejas (plantas → áreas → líneas de producción → activos).
 
 ## Stack Tecnológico
 
-- **Ruby 3.4.4** y **Rails 8.0.2**
+- **Ruby 3.4.7** y **Rails 8.1.1**
 - **Hotwire** (Turbo Rails + Stimulus) para interactividad
 - **Tailwind CSS** para diseño moderno y responsive
 - **Devise** con Argon2 para autenticación segura
@@ -27,7 +27,7 @@ complejas (plantas → áreas → líneas de producción → activos).
 
 ## Requisitos del Sistema
 
-- Ruby 3.4.4+
+- Ruby 3.4.7+
 - SQLite3 (desarrollo)
 - Git
 
